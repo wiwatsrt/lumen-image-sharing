@@ -52,7 +52,10 @@ class FileController extends Controller
                     ]);
 
                     $path = 'uploads/' . date('Y') . '/' . date('m') . '/';
-                    File::makeDirectory($path, 0775, true);
+                    if (!file_exists($path)) {
+                        File::makeDirectory($path, 0775, true);
+                    }
+                    
                     $hashids = new Hashids('abc123xyz', '16');
                     $hashId = $hashids->encode($fileModel->id);
                     $fileModel->hash_id = $hashId;
